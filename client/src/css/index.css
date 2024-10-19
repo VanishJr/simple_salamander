@@ -1,10 +1,9 @@
 /* Определяем CSS-переменные для повторяющихся значений */
 :root {
   --primary-color: #444444;
-  --secondary-color: #55606A;
+  --secondary-color: #43505A;
   --background-color: #F0F0F0;
-  --text-color: #333;
-  --heading-color: #222323;
+  --text-color: #222;
   --accent-color: #FFFBFB;
   --font-family-main: 'Scada', sans-serif;
   --font-family-heading: 'Roboto Slab', sans-serif;
@@ -32,6 +31,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background-color);
   color: var(--text-color);
+  margin: 0;
+  z-index: 1;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 3.125rem solid #CFCFCF;
+  z-index: -1;
+}
+
+.circle-1 {
+  width: 18.75rem;
+  height: 18.75rem;
+  top: -20%;
+  left: 20%;
+}
+
+.circle-2 {
+  width: 21.875rem;
+  height: 21.875rem;
+  top: 75%;
+  left: 55%;
 }
 
 body::before {
@@ -46,7 +69,7 @@ body::before {
 }
 
 .vertical-text {
-  position: fixed;
+  position: absolute; /* Изменяем fixed на absolute */
   left: 0;
   top: 0;
   bottom: 0;
@@ -54,7 +77,7 @@ body::before {
   display: flex;
   justify-content: center; /* Центрируем по горизонтали */
   align-items: center; /* Центрируем по вертикали */
-  writing-mode: vertical-rl; /* Поворачивает текст вертикально */
+  writing-mode: vertical-rl; /* Поворачиваем текст вертикально */
   text-align: center;
   font-family: var(--font-family-main);
   font-size: 1.3rem;
@@ -66,12 +89,13 @@ body::before {
 }
 
 
+
 /* Контейнер для центрирования контента */
 .container {
-  width: 100%;
   max-width: var(--max-width);
   padding: 0 1rem;
   margin: 0 auto;
+  padding-left: 2rem;
 }
 
 /* Стили навигации */
@@ -120,16 +144,25 @@ nav a:focus {
 
 /* Секция интро */
 #intro {
-  margin-top: 4rem;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start; /* Выравниваем содержимое по началу */
+  width: 100vw;
+  padding-left: 2rem;
+  box-sizing: border-box;
+}
+
+.topic {
+  flex: 1; /* Текст занимает одну часть пространства */
 }
 
 .topic h1 {
+  margin-top: 15rem;
   font-size: 4rem;
   font-family: var(--font-family-heading);
   font-weight: 700;
   text-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+  margin-left: -20rem;
 }
 
 .topic p {
@@ -137,17 +170,36 @@ nav a:focus {
   font-size: 1.25rem;
   font-weight: 400;
   margin-top: 2rem;
+  margin-left: -20rem;
+}
+
+.intro-image-wrapper {
+  position: relative; /* Оставляем контейнер для абсолютного позиционирования изображения */
+}
+
+.intro-image {
+  position: absolute;
+  top: 150px; /* Отступ сверху */
+  right: 0; /* Прижимаем к правому краю */
+  max-width: 800px;
+}
+
+.intro-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .intro_button {
   margin-top: 2rem;
+  margin-left: -20rem;
 }
 
 .intro_button button {
   font-size: 1.25rem;
   padding: 0.75rem 2.25rem;
   background-color: var(--secondary-color);
-  color: #FFFBFB;
+  color: var(--accent-color);
   border-radius: var(--border-radius);
   border: none;
   cursor: pointer;
@@ -157,96 +209,116 @@ nav a:focus {
 
 .intro_button button:hover,
 .intro_button button:focus {
-  background-color: var(--secondary-color);
   outline: none;
+  color: var(--accent-color);
   transform: scale(1.05);
 }
 
-.intro_button button:focus {
-  outline: 2px dashed var(--secondary-color);
-}
-
-/* Секция "О нас" */
-.about-section {
-  position: relative;
-  width: 100%;
-  background-color: var(--heading-color);
-  color: var(--accent-color);
-  padding: 4rem 0;
-  text-align: center;
-  margin-top: 4rem;
-}
-
-.about-content {
-  display: flex;
-  align-items: center;
-  gap: 12rem;
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
-.icon {
-  flex-shrink: 0;
-  width: 18rem;
-  height: 18rem;
-  border-radius: 50%;
-  background-color: var(--accent-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.about-text {
-  text-align: center;
-}
-
-.about-text h2 {
-  font-size: 2.5rem;
-  font-family: var(--font-family-heading);
-  margin-bottom: 3rem;
-}
-
-.about-text p {
-  text-align: left;
-  margin: 0;
-  font-size: var(--base-font-size);
-}
-
-/* Диагональный элемент */
-.diagonal-section {
-  width: 100%;
-  height: 7rem;
-  background-color: var(--heading-color);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 30%);
-  margin-top: -1rem;
-}
-
-/* Медиа-запросы для адаптивности */
-@media (max-width: 768px) {
-  nav {
-    padding: 1rem 2rem;
+/* Медиа-запросы для экранов шириной 2560px и больше */
+@media (min-width: 2560px) {
+  .container {
+    max-width: 90rem; /* Увеличиваем ширину контейнера */
   }
 
-  nav ul {
-    gap: 1.5rem;
-  }
-
-  .about-content {
-    flex-direction: column;
-    gap: 2rem;
+  .topic h1 {
+    font-size: 6rem;
+    margin-left: -25rem;
   }
 
   .topic p {
+    font-size: 1.5rem;
+    width: 70%;
+    margin-left: -25rem;
+  }
+
+  .intro_button {
+    margin-left: -25rem;
+  }
+
+  .intro-image {
+    top: 200px; /* Увеличиваем отступ сверху для пропорций */
+    max-width: 1200px; /* Увеличиваем максимальный размер изображения */
+  }
+
+  .circle-1 {
+    width: 25rem;
+    height: 25rem;
+    top: -20%;
+    left: 25%;
+  }
+
+  .circle-2 {
+    width: 28rem;
+    height: 28rem;
+    top: 80%;
+    left: 60%;
+  }
+}
+
+
+/* Медиа-запросы для экранов шириной 1024px и меньше */
+@media (max-width: 1024px) {
+  .topic h1 {
+    font-size: 3rem;
+    margin-left: -10rem;
+  }
+
+  .topic p {
+    margin-left: -10rem;
+    font-size: 1.1rem;
+  }
+
+  .intro_button {
+    margin-left: -10rem;
+  }
+
+  .intro-image {
+    top: 100px;
+    max-width: 600px;
+  }
+
+  .circle-1,
+  .circle-2 {
+    display: none;
+  }
+}
+
+/* Медиа-запросы для экранов шириной 480px и меньше */
+@media (max-width: 480px) {
+  nav {
+    padding: 1rem;
+    flex-direction: column;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .topic h1 {
+    font-size: 2.5rem;
+    margin-left: 0;
+    margin-top: 10rem;
+  }
+
+  .topic p {
+    margin-left: 0;
+    font-size: 1rem;
     width: 100%;
   }
 
-  .icon {
-    width: 12rem;
-    height: 12rem;
+  .intro_button {
+    margin-left: 0;
   }
 
-  .about-text h2 {
-    font-size: 2rem;
+  .intro-image {
+    position: static;
+    max-width: 100%;
+  }
+
+  .circle-1,
+  .circle-2 {
+    display: none;
   }
 }
 
@@ -263,14 +335,3 @@ nav a,
   justify-content: center;
 }
 
-nav a:hover,
-.intro_button button:hover {
-  color: var(--primary-color);
-}
-
-/* Обеспечение кроссбраузерной поддержки для clip-path */
-@supports not (clip-path: polygon(0 0, 100% 0, 100% 100%, 0 30%)) {
-  .diagonal-section {
-    display: none;
-  }
-}
